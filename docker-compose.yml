@@ -1,0 +1,48 @@
+version: "3.4"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.9-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+  db:
+    image: "mcr.microsoft.com/mssql/server:2017-latest"
+    container_name: db
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "SA_PASSWORD=Mohammad1250633672"
+    ports:
+      - 1400:1433
+
+  producer:
+    image: producer
+    container_name: producer
+    environment:
+      - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
+      - "ConnectionStrings:RabbitMqDbContext=server=db;database=RabbitMqDb;user id=sa;password=Mohammad1250633672"
+    build:
+      context: .
+      dockerfile: Producer/Dockerfile
+    ports:
+      - 5000:80
+    depends_on:
+      - rabbitmq
+      - db
+
+  consumer:
+    image: consumer
+    container_name: consumer
+    environment:
+      - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
+      - "ConnectionStrings:RabbitMqDbContext=server=db;database=RabbitMqDb;user id=sa;password=Mohammad1250633672"      
+    build:
+      context: .
+      dockerfile: Consumer/Dockerfile
+    ports:
+      - 5001:80
+    depends_on:
+      - rabbitmq
+      - db
