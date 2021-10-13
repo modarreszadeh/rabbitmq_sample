@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <br>
+    <a onclick="getUsers()" class="btn btn-success">Load Users From Message</a>
+</div>
+
+<div id="loadUsers" class="container">
+
+</div>
+
+@section Scripts
+{
+    <script>
+     function getUsers() {
+          $.ajax({
+                   method : "GET",
+                   url:"/users",
+                   success : function(result) {
+                       $("#loadUsers").html(result);
+                   }
+          });
+     }
+    </script>
+}
