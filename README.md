@@ -17,4 +17,5 @@ To run rabbitmq_sample in production mode; Just use steps below:
   sudo docker-compose up -d
   ```
 6. Go to [http://localhost:5000/swagger](http://localhost:5000/swagger) to see your rabbitmq_sample swagger api documentaion.
+7. Go to [http://localhost:15672](http://localhost:15672) to see your RabbitMQ Dashboard. `username=guest`,`password=guest`.
 
